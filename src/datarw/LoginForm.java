@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package datarw;
 
-/**
- *
- * @author Root
- */
-public class LoginForm extends javax.swing.JFrame {
+import java.sql.*;
+import javax.swing.JOptionPane;
 
-    /**
-     * Creates new form LoginForm
-     */
+public class LoginForm extends javax.swing.JFrame {
+    
+    private Connection con;
+    private PreparedStatement pst;
+    private ResultSet rs;
+    
     public LoginForm() {
         initComponents();
     }
@@ -31,7 +26,7 @@ public class LoginForm extends javax.swing.JFrame {
         Password = new javax.swing.JLabel();
         tf_username = new javax.swing.JTextField();
         pf_password = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        Login = new javax.swing.JButton();
         Kembali = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -44,19 +39,12 @@ public class LoginForm extends javax.swing.JFrame {
         Password.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Password.setText("Password");
 
-        tf_username.addActionListener(new java.awt.event.ActionListener() {
+        Login.setText("Login");
+        Login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_usernameActionPerformed(evt);
+                LoginActionPerformed(evt);
             }
         });
-
-        pf_password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pf_passwordActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Login");
 
         Kembali.setText("Kembali");
         Kembali.addActionListener(new java.awt.event.ActionListener() {
@@ -70,15 +58,11 @@ public class LoginForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Username, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(Login, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tf_username, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -99,7 +83,7 @@ public class LoginForm extends javax.swing.JFrame {
                     .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(Login)
                     .addComponent(Kembali))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
@@ -107,17 +91,35 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pf_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pf_passwordActionPerformed
-
-    private void tf_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_usernameActionPerformed
-
     private void KembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KembaliActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        Splash splash = new Splash();
+        splash.setVisible(true);
     }//GEN-LAST:event_KembaliActionPerformed
+
+    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
+        String username = tf_username.getText();
+        String password = pf_password.getText();
+        
+        if (username.equals("") || password.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Silahkan Isikan Data Diri Anda");
+        }else{
+            try{
+                con = Connections.getConnection();
+                pst = con.prepareStatement("Select * from tb_admin where username = ? and password = ?");
+                pst.setString(1, username);
+                pst.setString(2, password);
+                rs = pst.executeQuery();
+                
+                MainForm mf = new MainForm();
+                mf.setVisible(true);
+                this.dispose();
+                
+            } catch (SQLException sqle){
+                JOptionPane.showMessageDialog(rootPane, sqle);
+            }
+        }
+    }//GEN-LAST:event_LoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,9 +158,9 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Kembali;
+    private javax.swing.JButton Login;
     private javax.swing.JLabel Password;
     private javax.swing.JLabel Username;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JTextField tf_username;
     // End of variables declaration//GEN-END:variables

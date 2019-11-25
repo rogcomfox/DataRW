@@ -2,13 +2,15 @@ package datarw;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class Splash extends javax.swing.JFrame {
-
+       
     public Splash() {
         initComponents();
     }
-
+    Connection con;
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -76,9 +78,20 @@ public class Splash extends javax.swing.JFrame {
     }//GEN-LAST:event_LoginActionPerformed
 
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
-        this.dispose();
-        RegisterForm register = new RegisterForm();
-        register.setVisible(true);
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection conn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-EKACP9K:1433;database=DataRw;user=DESKTOP-EKACP9K/Root;integratedSecurity=true;");
+            JOptionPane.showMessageDialog(null, "Berhasil Tersambung");
+            this.dispose();
+            RegisterForm register = new RegisterForm();
+            register.setVisible(true);
+            
+        }catch (SQLException sqle){
+            JOptionPane.showMessageDialog(null, "SQL Exception : " + sqle.getMessage());
+        }catch (ClassNotFoundException ce){
+            JOptionPane.showMessageDialog(null, "Class Not Found Exception : " + ce.getMessage());
+        }
+        
     }//GEN-LAST:event_RegisterActionPerformed
 
     public static void main(String args[]) {
@@ -97,14 +110,11 @@ public class Splash extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Splash().setVisible(true);
-                JFrame jframe = new JFrame("MyPulsa");
-                jframe.setTitle("MyPulsa");
-                jframe.setPreferredSize(new Dimension(600, 400));
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Splash().setVisible(true);
+            JFrame jFrame = new JFrame();
+            jFrame.setPreferredSize(new Dimension(1000, 1000));
+            jFrame.setTitle("DataRw");
         });
     }
 
