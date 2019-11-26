@@ -6,8 +6,9 @@ import javax.swing.JOptionPane;
 public class LoginForm extends javax.swing.JFrame {
     
     private Connection con;
-    private PreparedStatement pst;
-    private ResultSet rs;
+    private PreparedStatement pst, pst1;
+    private ResultSet rs, rs1;
+    private String username, password;
     
     public LoginForm() {
         initComponents();
@@ -98,8 +99,8 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_KembaliActionPerformed
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
-        String username = tf_username.getText();
-        String password = pf_password.getText();
+        username = tf_username.getText();
+        password = pf_password.getText();
         
         if (username.equals("") || password.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Silahkan Isikan Data Diri Anda");
@@ -107,14 +108,30 @@ public class LoginForm extends javax.swing.JFrame {
             try{
                 con = Connections.getConnection();
                 pst = con.prepareStatement("Select * from tb_admin where username = ? and password = ?");
+                pst1 = con.prepareStatement("Select * from tb_warga where no_ktp = ? and password = ?");
                 pst.setString(1, username);
                 pst.setString(2, password);
+                pst1.setString(1, username);
+                pst.setString(2, password);
                 rs = pst.executeQuery();
+                rs1 = pst1.executeQuery();
                 
-                MainForm mf = new MainForm();
-                mf.setVisible(true);
-                this.dispose();
-                
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(rootPane, "Selamat Datang " + username);
+                    MainForm mf = new MainForm();
+                    mf.setVisible(true);
+                    this.dispose();
+                } 
+                else if (rs1.next()){
+                    JOptionPane.showMessageDialog(rootPane, "Selamat Datang" + username);
+                    WargaForm wf = new WargaForm();
+                    wf.setVisible(true);
+                    this.dispose();
+                }else{
+                    tf_username.setText("");
+                    pf_password.setText("");
+                    JOptionPane.showMessageDialog(rootPane, "Gagal Login");
+                }
             } catch (SQLException sqle){
                 JOptionPane.showMessageDialog(rootPane, sqle);
             }
@@ -137,22 +154,16 @@ public class LoginForm extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginForm().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginForm().setVisible(true);
         });
     }
 
