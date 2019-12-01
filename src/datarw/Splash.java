@@ -3,7 +3,6 @@ package datarw;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import java.sql.*;
-import javax.swing.JOptionPane;
 
 public class Splash extends javax.swing.JFrame {
        
@@ -18,14 +17,16 @@ public class Splash extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         Login = new javax.swing.JButton();
-        Register = new javax.swing.JButton();
+        Keluar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DataRW");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Selamat Datang!");
 
+        Login.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Login.setText("Login");
         Login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -33,10 +34,11 @@ public class Splash extends javax.swing.JFrame {
             }
         });
 
-        Register.setText("Register");
-        Register.addActionListener(new java.awt.event.ActionListener() {
+        Keluar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Keluar.setText("Keluar");
+        Keluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegisterActionPerformed(evt);
+                KeluarActionPerformed(evt);
             }
         });
 
@@ -46,13 +48,14 @@ public class Splash extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                        .addComponent(Register)))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
                 .addGap(80, 80, 80))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Login, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(Keluar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -60,10 +63,10 @@ public class Splash extends javax.swing.JFrame {
                 .addGap(86, 86, 86)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Login)
-                    .addComponent(Register))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addComponent(Login)
+                .addGap(18, 18, 18)
+                .addComponent(Keluar)
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         Login.getAccessibleContext().setAccessibleName("");
@@ -78,22 +81,9 @@ public class Splash extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_LoginActionPerformed
 
-    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
-        try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection conn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-EKACP9K:1433;database=DataRw;user=DESKTOP-EKACP9K/Root;integratedSecurity=true;");
-            JOptionPane.showMessageDialog(null, "Berhasil Tersambung");
-            this.dispose();
-            RegisterForm register = new RegisterForm();
-            register.setVisible(true);
-            
-        }catch (SQLException sqle){
-            JOptionPane.showMessageDialog(null, "SQL Exception : " + sqle.getMessage());
-        }catch (ClassNotFoundException ce){
-            JOptionPane.showMessageDialog(null, "Class Not Found Exception : " + ce.getMessage());
-        }
-        
-    }//GEN-LAST:event_RegisterActionPerformed
+    private void KeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_KeluarActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -120,8 +110,8 @@ public class Splash extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Keluar;
     private javax.swing.JButton Login;
-    private javax.swing.JButton Register;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

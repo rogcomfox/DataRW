@@ -8,6 +8,7 @@ package datarw;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 /**
  *
@@ -15,13 +16,10 @@ import javax.swing.JOptionPane;
  */
 public class PerizinanTamu extends javax.swing.JInternalFrame {
     
-    String tamu;
-    String ktp;
-    String alamat;
-    String perlu;
-    String warga;
-    String ket;
-    String tgl;
+    String tamu, tgl, ket, warga, perlu, alamat, ktp, nohp, profesi;
+    private Connection conn;
+    private PreparedStatement pst;
+    private ResultSet rs;
     
     public PerizinanTamu() {
         initComponents();
@@ -53,6 +51,10 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
         btn_tambah = new javax.swing.JButton();
         btn_reset = new javax.swing.JButton();
         dp_tglizin = new org.jdesktop.swingx.JXDatePicker();
+        jLabel8 = new javax.swing.JLabel();
+        tf_nohp = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        tf_profesi = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Nama Tamu");
@@ -70,7 +72,7 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
         tf_alamattamu.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("Tanggal Izin");
+        jLabel4.setText("Profesi");
 
         tf_keperluan.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -105,6 +107,16 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setText("No HP");
+
+        tf_nohp.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel9.setText("Tanggal Izin");
+
+        tf_profesi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,13 +129,17 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tf_alamattamu, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(tf_ktp, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(tf_tamu, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(dp_tglizin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(dp_tglizin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tf_nohp, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(tf_profesi, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)))
@@ -140,7 +156,7 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
                             .addComponent(tf_keperluan, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
+                        .addGap(53, 53, 53)
                         .addComponent(btn_reset, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(38, 38, 38))
         );
@@ -166,16 +182,24 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
                             .addComponent(tf_alamattamu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(tf_nohp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(dp_tglizin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tf_profesi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dp_tglizin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_tambah)
-                    .addComponent(btn_reset))
-                .addGap(54, 54, 54))
+                    .addComponent(btn_reset)
+                    .addComponent(btn_tambah))
+                .addGap(36, 36, 36))
         );
 
         pack();
@@ -188,13 +212,27 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
         perlu = tf_keperluan.getText();
         warga = tf_ktpwarga.getText();
         ket = ta_ket.getText();
-        Date tgl_izin = dp_tglizin.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+        nohp = tf_nohp.getText();
+        profesi = tf_profesi.getText();
+        Date tgl_izin = (Date) dp_tglizin.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddmmyyyy");
         tgl = sdf.format(tgl_izin);
         
         if (tamu.equals("") || ktp.equals("") || alamat.equals("") || perlu.equals("") || warga.equals("") || tgl.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Silahkan Isikan Data Perizinan");
         }else{
+            try{
+                conn = Connections.getConnection();
+                String insertQuery = "insert into tb_tamu values ('"+ktp+"','"+tamu+"',"+alamat+"','"+nohp+"','"+profesi+"') "
+                    + "insert into tb_izin_tamu values ('"+ktp+"','"+warga+"','"+tgl+"','"+perlu+"')"
+                    + "insert into tb_status_izin values ('"+ktp+"','"+ket+"','"+ket+"')";
+                rs = conn.createStatement().executeQuery(insertQuery);
+                if (rs.next()){
+                    JOptionPane.showMessageDialog(rootPane, "Data Perizinan Berhasil Diinputkan");
+                }
+            } catch (SQLException sqle) {
+                sqle.printStackTrace();
+            }
             
         }
     }//GEN-LAST:event_btn_tambahActionPerformed
@@ -206,6 +244,8 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
         tf_keperluan.setText("");
         tf_ktpwarga.setText("");
         ta_ket.setText("");
+        tf_nohp.setText("");
+        tf_profesi.setText("");
     }//GEN-LAST:event_btn_resetActionPerformed
 
 
@@ -220,12 +260,16 @@ public class PerizinanTamu extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea ta_ket;
     private javax.swing.JTextField tf_alamattamu;
     private javax.swing.JTextField tf_keperluan;
     private javax.swing.JTextField tf_ktp;
     private javax.swing.JTextField tf_ktpwarga;
+    private javax.swing.JTextField tf_nohp;
+    private javax.swing.JTextField tf_profesi;
     private javax.swing.JTextField tf_tamu;
     // End of variables declaration//GEN-END:variables
 }

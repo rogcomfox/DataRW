@@ -31,6 +31,7 @@ public class LoginForm extends javax.swing.JFrame {
         Kembali = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("LoginAdmin");
 
         Username.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         Username.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -59,12 +60,17 @@ public class LoginForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(Username, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(Login, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(Username, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(Password, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tf_username, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -90,6 +96,7 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void KembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KembaliActionPerformed
@@ -108,24 +115,14 @@ public class LoginForm extends javax.swing.JFrame {
             try{
                 con = Connections.getConnection();
                 pst = con.prepareStatement("Select * from tb_admin where username = ? and password = ?");
-                pst1 = con.prepareStatement("Select * from tb_warga where no_ktp = ? and password = ?");
                 pst.setString(1, username);
                 pst.setString(2, password);
-                pst1.setString(1, username);
-                pst.setString(2, password);
                 rs = pst.executeQuery();
-                rs1 = pst1.executeQuery();
                 
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(rootPane, "Selamat Datang " + username);
-                    MainForm mf = new MainForm();
+                    MainForm mf = new MainForm(username);
                     mf.setVisible(true);
-                    this.dispose();
-                } 
-                else if (rs1.next()){
-                    JOptionPane.showMessageDialog(rootPane, "Selamat Datang" + username);
-                    WargaForm wf = new WargaForm();
-                    wf.setVisible(true);
                     this.dispose();
                 }else{
                     tf_username.setText("");
