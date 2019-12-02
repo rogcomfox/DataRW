@@ -31,14 +31,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TamuActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="Domisili">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+D"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Domisili"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="Tampil">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
@@ -54,11 +46,6 @@
             <Property name="text" type="java.lang.String" value="Pendataan"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="DPT">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="DPT"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="penduduk">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Penduduk Baru"/>
@@ -67,12 +54,17 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pendudukActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="EditData">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Edit Data"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="tampilPenduduk">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tampil Penduduk"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tampilPendudukActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -82,9 +74,22 @@
             <Property name="text" type="java.lang.String" value="Peminjaman"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="Fasilitas">
+            <MenuItem class="javax.swing.JMenuItem" name="TambahPinjam">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Fasilitas"/>
+                <Property name="text" type="java.lang.String" value="Tambah Pinjam"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TambahPinjamActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="editpinjam">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Edit Pinjam"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="TampilPeminjam">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Daftar Pinjam"/>
               </Properties>
             </MenuItem>
           </SubComponents>

@@ -38,14 +38,15 @@ public class MainForm extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         Tamu = new javax.swing.JMenuItem();
-        Domisili = new javax.swing.JMenuItem();
         Tampil = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        DPT = new javax.swing.JMenuItem();
         penduduk = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        EditData = new javax.swing.JMenuItem();
+        tampilPenduduk = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        Fasilitas = new javax.swing.JMenuItem();
+        TambahPinjam = new javax.swing.JMenuItem();
+        editpinjam = new javax.swing.JMenuItem();
+        TampilPeminjam = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         Tambah = new javax.swing.JMenuItem();
         welcome = new javax.swing.JMenu();
@@ -78,10 +79,6 @@ public class MainForm extends javax.swing.JFrame {
         });
         jMenu1.add(Tamu);
 
-        Domisili.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        Domisili.setText("Domisili");
-        jMenu1.add(Domisili);
-
         Tampil.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         Tampil.setText("Tampil Data");
         jMenu1.add(Tampil);
@@ -89,9 +86,6 @@ public class MainForm extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Pendataan");
-
-        DPT.setText("DPT");
-        jMenu2.add(DPT);
 
         penduduk.setText("Penduduk Baru");
         penduduk.addActionListener(new java.awt.event.ActionListener() {
@@ -101,20 +95,34 @@ public class MainForm extends javax.swing.JFrame {
         });
         jMenu2.add(penduduk);
 
-        jMenuItem1.setText("Tampil Penduduk");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        EditData.setText("Edit Data");
+        jMenu2.add(EditData);
+
+        tampilPenduduk.setText("Tampil Penduduk");
+        tampilPenduduk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                tampilPendudukActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(tampilPenduduk);
 
         jMenuBar1.add(jMenu2);
 
         jMenu4.setText("Peminjaman");
 
-        Fasilitas.setText("Fasilitas");
-        jMenu4.add(Fasilitas);
+        TambahPinjam.setText("Tambah Pinjam");
+        TambahPinjam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TambahPinjamActionPerformed(evt);
+            }
+        });
+        jMenu4.add(TambahPinjam);
+
+        editpinjam.setText("Edit Pinjam");
+        jMenu4.add(editpinjam);
+
+        TampilPeminjam.setText("Daftar Pinjam");
+        jMenu4.add(TampilPeminjam);
 
         jMenuBar1.add(jMenu4);
 
@@ -170,9 +178,17 @@ public class MainForm extends javax.swing.JFrame {
         pb.show();
     }//GEN-LAST:event_pendudukActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void tampilPendudukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tampilPendudukActionPerformed
+        TampilPenduduk tp = new TampilPenduduk();
+        PanelDalam.add(tp);
+        tp.show();
+    }//GEN-LAST:event_tampilPendudukActionPerformed
+
+    private void TambahPinjamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahPinjamActionPerformed
+        TambahPeminjam tpj = new TambahPeminjam();
+        PanelDalam.add(tpj);
+        tpj.show();
+    }//GEN-LAST:event_TambahPinjamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,23 +224,24 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem DPT;
-    private javax.swing.JMenuItem Domisili;
-    private javax.swing.JMenuItem Fasilitas;
+    private javax.swing.JMenuItem EditData;
     private javax.swing.JMenuItem Keluar;
     private javax.swing.JPanel PanelDalam;
     private javax.swing.JMenuItem Tambah;
+    private javax.swing.JMenuItem TambahPinjam;
     private javax.swing.JMenuItem Tampil;
+    private javax.swing.JMenuItem TampilPeminjam;
     private javax.swing.JMenuItem Tamu;
+    private javax.swing.JMenuItem editpinjam;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JMenuItem penduduk;
+    private javax.swing.JMenuItem tampilPenduduk;
     private javax.swing.JMenu welcome;
     // End of variables declaration//GEN-END:variables
 }

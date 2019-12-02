@@ -5,17 +5,44 @@
  */
 package datarw;
 
-/**
- *
- * @author Root
- */
-public class TampilPenduduk extends javax.swing.JInternalFrame {
+import java.sql.*;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-    /**
-     * Creates new form TampilPenduduk
-     */
+public class TampilPenduduk extends javax.swing.JInternalFrame {
+    
+    private Connection conn;
+    
     public TampilPenduduk() {
-        initComponents();
+        try {
+            initComponents();
+            conn = Connections.getConnection();
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select m.no_ktp, m.nama, m.alamat, m.rt, m.profesi, n.no_kk, s.status_dpt, s.status_nikah from tb_warga m join tb_kk n on m.no_ktp = n.no_ktp join tb_status_warga s on n.no_ktp = s.no_ktp");
+            ResultSetMetaData rsmeta = rs.getMetaData();
+            int columns = rsmeta.getColumnCount();
+            DefaultTableModel dtm = new DefaultTableModel();
+            Vector columns_name = new Vector();
+            Vector data_rows = new Vector();
+            
+            for (int i = 1; i < columns; i++) {
+                columns_name.addElement(rsmeta.getColumnName(i));
+            }
+            dtm.setColumnIdentifiers(columns_name);
+            
+            while (rs.next()) {
+                data_rows = new Vector();
+                for (int j = 1; j < columns; j++) {
+                    data_rows.addElement(rs.getString(j));
+                }
+                dtm.addRow(data_rows);
+            }
+            tb_penduduk.setModel(dtm);
+            
+        } catch (SQLException sqle) {
+            JOptionPane.showMessageDialog(rootPane, sqle);
+        }
     }
 
     /**
@@ -27,15 +54,34 @@ public class TampilPenduduk extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_penduduk = new javax.swing.JTable();
+
+        tb_penduduk.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tb_penduduk);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
         );
 
         pack();
@@ -43,5 +89,8 @@ public class TampilPenduduk extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tb_penduduk;
     // End of variables declaration//GEN-END:variables
 }
